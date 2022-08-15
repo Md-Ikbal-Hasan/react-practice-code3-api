@@ -60,6 +60,12 @@
   background-color: orange;
 }
 
+input {
+  margin: .5rem;
+  padding: .5rem;
+  width: 20rem;
+}
+
 section {
   display: grid;
 }

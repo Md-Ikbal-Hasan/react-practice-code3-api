@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from "react"
+import UserForm from './Components/UserForm';
 
 function App() {
 
@@ -66,6 +67,34 @@ function App() {
   }
 
 
+  // add User . Create Operation
+  const addUser = (user) => {
+    fetch(URL, {
+
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    })
+
+      .then((res) => {
+        if (res.status === 201) {
+          getAllUsers();
+        } else {
+          throw new Error("Could not create new user")
+        }
+
+      })
+
+
+      .catch((err) => {
+        setError(err.message);
+
+      })
+  }
+
+
 
   return (
     <div className='App'>
@@ -73,6 +102,8 @@ function App() {
 
       {isLoading && <h2>Loading .....</h2>}
       {error && <h2>{error} </h2>}
+
+      <UserForm btnText="Add User" handleSubmitData={addUser} />
 
       <section>
         {users &&

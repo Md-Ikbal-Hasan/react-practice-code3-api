@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 
 function App() {
 
-  const URL = "https://rest-api-without-db.herokuapp.com/users/";
+  const URL = "https://rest-api-without-db.herokuapp.com/users/"; // api
 
   const [users, setUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +42,30 @@ function App() {
   }, [])
 
 
+  //delete operation
+  const handleDelete = (id) => {
+
+    fetch(URL + `/${id}`, {
+
+      method: 'DELETE'
+
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Could not Delete")
+        }
+        getAllUsers();
+      })
+
+
+      .catch((err) => {
+        setError(err.message);
+
+      })
+
+  }
+
+
 
   return (
     <div className='App'>
@@ -51,7 +75,6 @@ function App() {
       {error && <h2>{error} </h2>}
 
       <section>
-
         {users &&
           users.map((user) => {
             const { id, username, email } = user;
@@ -60,16 +83,12 @@ function App() {
                 <p> {username} </p>
                 <p> {email} </p>
                 <button className='btn'>Edit</button>
-                <button className='btn'>Delete</button>
+                <button onClick={() => { handleDelete(id) }} className='btn'>Delete</button>
 
               </article>
             )
           })}
-
       </section>
-
-
-
 
     </div>
   );
